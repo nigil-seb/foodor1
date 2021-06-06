@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block metadescription %}
+        Welcome to the Food@door where you can find all needables .
+
+{% endblock %}
+{% block title %}
+    Bag - Ordered Items!!!
+{% endblock %}
+{% block content %}
+{% if not bag_items %}
+    <div>
+        <div class="text-center">
+            <br>
+            <h1 class="text-center my_title">
+                Your Bag is empty :(
+            </h1>
+            <br>
+            <p class="text-center">
+                Please click <a href="{% url 'foodoorapp:allItmCat' %}"> Here</a>
+            </p>
+        </div>
+    </div>
+{% else %}
+<div>
+    <div class="text-center">
+        <br>
+        <h1 class="tecxt-center my_title">
+            Your Bag
+        </h1>
+        <br>
+    </div>
+</div>
+<div class="row mx-auto">
+    <div class="col-12 col-sm-12 col-md-12 col-lg-6 text-center">
+        <table class="table my_custom_table">
+            <thead class="my_custom_thead">
+            <tr>
+                <th colspan="5">Your Items</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for bag_item in bag_items %}
+            <tr>
+                <td>
+                    <a href="bag_item.item.get_absolute_url"><img src={{bag_item.item.image.url}} class="float-left rounded custom_image" style="width:50px;height:50px;"></a>
+                </td>
+                <td class="text-left">
+                    {{bag_item.item.name}}
+                    <br>
+                    DEL: {{bag_item.item.id}}
+                    <br>
+                    Unit price :{{bag_item.item.price}}
+                    QTY: {{bag_item.quantity}} x ₹ {{bag_item.item.price}}
+                </td>
+                <td>₹ {{bag_item.sub_total}}</td>
+                {% if bag_item.quantity < bag_item.item.stock %}
+                <td>
+                    <a href="{% url 'bag:add_bag' bag_item.item.id %}" class="custom_a"><i class="fas fa-plus custom_icon"></i></a>&nbsp;
+                    <a href="{% url 'bag:bag_remove' bag_item.item.id %}" class="custom_icon"><i class="fas fa-minus custom_icon"></i></a>&nbsp;<a href="{% url 'bag:full_remove' bag_item.item.id %}" class="custom_icon"><i class="fas fa-trash-alt custom_icon"></i></a>
+                </td>
+                {% else %}
+                <td>
+                    &nbsp;<a href="{% url 'bag:bag_remove' bag_item.item.id %}" class="custom_a"><i class="fas fa-minus custom_icon"></i></a>&nbsp;<a href="{% url 'bag:full_remove' bag_item.item.id %}" class="custom_icon"><i class="fas fa-trash-alt custom_icon"></i></a>
+                </td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="col-12 col-sm-12 col-md-12 col-lg-6 text-center">
+        <table class="table my_custom_table">
+            <thead class="my_custom_thead">
+            <tr>
+                <th>
+                    Checkout
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    Make sure to review selected items before proceeding the payment.
+                </td>
+            </tr>
+            <tr>
+            <td class="text-left">
+                Total Amount <strong> ₹ {{total}}</strong>
+            </td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="mx-auto">
+            <a href="{% url 'foodoorapp:allItmCat' %}" class="btn btn-secondary btn-block my_custom_button">Continue Shopping</a>
+</div>
+    </div>
+</div><br>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,40 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<!--  <a class="navbar-brand" href="#">Navbar</a>-->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Items
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="{% url 'foodoorapp:allItmCat' %}">All items</a>
+            {% for cat in links %}
+            <a class="dropdown-item" href="{{cat.get_url}}">{{cat.name}}</a>
+            {% endfor %}
+          {% if item_count > 0 %}
+        <li class="nav-item">
+          <a class="nav-link" href="bag:bag_details" ><i class="fas fa-cart-plus">{{item_count}}</i></a>
+        </li>
+          {% endif %}
+
+        <li class="nav-item">
+          <a class="nav-link active" href="#"><i class="fas fa-shopping-bag"></i></a>
+        </li>
+      </ul>
+
+    </div>
+</nav>
+<!--<nav>-->
+<!--    <ul>-->
+<!--        <li><a href="{% url 'foodoorapp:allItmCat' %}">All Items</a></li>-->
+<!--      {% for cat in links %}-->
+<!--          <li><a href="{{cat.get_url}}">{{cat.name}}</a> </li>-->
+
+<!--        {% endfor %}-->
+<!--        <li>Your Bag</li>-->
+<!--    </ul>-->
+<!--</nav>-->

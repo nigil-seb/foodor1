@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block metadescription %}
+    {{item.desc|truncatewords:155}}
+{% endblock %}
+{% block title %}
+    {{item.name}}-food@door
+{% endblock %}
+{% block content %}
+<div class="row my_itm_row_class">
+    <div class="mx-auto">
+        <p><a href="{% url 'foodoorapp:allItmCat' %}">Home</a> |<a href="{{item.category.get_url}}">{{item.name}}</a></p>
+    </div>
+    <div class="container">
+        <br>
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-6 text-center">
+                <div style="min-width:18rem;">
+                <img src="{{item.image.url}}" alt="{{item.name}}">
+                </div>
+            </div>
+        <div class="col-12 col-sm-12 col-md-12 col-lg-6">
+            <div>
+                <h1 class="my_itm_title"> {{item.name}}</h1>
+                <p>₹ {{item.price}}</p>
+                <p class="my_title">Item spec</p>
+                <p class="text-justify my_itm_text">{{item.desc}}</p>
+                {% if Item.stock <= 0 %}
+                    <p class="text-justify my_itm_text"><b>Not Available</b></p>
+                {% else %}
+                    <a class="btn btn-secondary" href="">Add To bag </a>
+                {% endif %}
+            </div>
+        </div>
+            </div>
+    </div>
+</div>
+  {% endblock %}

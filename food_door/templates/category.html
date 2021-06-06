@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block metadescription %}
+    {% if category %}
+        {{category.desc |truncatewords:155}}
+    {% else %}
+        Welcome to foodoor where you find your fav foods .
+    {% endif %}
+{% endblock %}
+
+{% block title %}
+    {% if category %}
+        {{category.name}}-Food bag
+    {% else %}
+        find yours food
+    {% endif %}
+{% endblock %}
+{% block content %}
+    {% if category %}
+        <div class="row my_row_class">
+            <div class="mx-auto">
+                <p><a href="{% url 'foodoorapp:allItmCat' %}">Todays Special </a>{{category.name}}</p>
+            </div>
+        </div>
+    {% endif %}
+<div class="mx-auto">
+    {% if category %}
+        <img class="my_image" src="{{category.image.url}}" alt="{{category.name}}">
+</div><br>
+<div>
+    <h1 class="text-center my_title">{{category.name}}</h1>
+    <p class="text-justify">{{category.desc}}</p>
+</div>
+    {% else %}
+        <div>
+            <center><img class="my_image my_image_padding" src="{% static 'img/bgn.png' %}" style="width:2000px;" alt=""></center>
+        </div><br>
+        <div>
+            <h1 class="text-center my_title"> Todays SpecIal</h1>
+            <p class="text-justify">You can find your favourite items form your nearest and shops you like the most.</p>
+        </div>
+    {% endif %}
+        <div class="container">
+            <div class="mx-auto">
+                {% for item in items.object_list %}
+                <div class="my_bottom_margin col-9 col-sm-12 col-md-4 col-lg-4">
+                    <div class="card text-center" style="width: 18rem;">
+                        <a href="{{item.get_url}}"><img class="card-img-top my_image" src="{{ item.image.url }}" alt="{{item.name}}" style="width:250px;height:250px;"></a>
+                        <div class="card-body">
+                            <h4> {{item.name}}</h4>
+                            <p>₹ {{item.price}}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="mx-auto">
+                <div class="text-center">
+                    {% for pg in items.paginator.page_range %}
+                    <a href="?page={{pg}}" class="btn btn-light btn-sm {% if items.number == pg %} activate {% endif %}">{{pg}}</a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+{% endblock %}
